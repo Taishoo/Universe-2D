@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Prefabs/Planet.tscn" type="PackedScene" id=1]
+
+[node name="Space" type="Node2D"]
+
+[node name="10k_km" type="ColorRect" parent="."]
+visible = false
+margin_left = 531.274
+margin_top = 285.926
+margin_right = 541.274
+margin_bottom = 295.926
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Earth" parent="." instance=ExtResource( 1 )]
+modulate = Color( 0.0470588, 1, 0.0392157, 1 )
+position = Vector2( 366.441, 356.151 )
+
+[node name="Earth2" parent="." instance=ExtResource( 1 )]
+modulate = Color( 0.0470588, 1, 0.0392157, 1 )
+position = Vector2( 436.759, 286.776 )
+
+[node name="Earth3" parent="." instance=ExtResource( 1 )]
+modulate = Color( 0.0470588, 1, 0.0392157, 1 )
+position = Vector2( 469.323, 405.704 )
+
+[node name="Earth4" parent="." instance=ExtResource( 1 )]
+modulate = Color( 0.0470588, 1, 0.0392157, 1 )
+position = Vector2( 538.226, 277.809 )
+
+[node name="Mars" parent="." instance=ExtResource( 1 )]
+modulate = Color( 1, 0.105882, 0.0392157, 1 )
+position = Vector2( 500.085, 344.48 )
+mass = 0.639
+density = 3.93
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 441.418, 334.158 )
+current = true
+zoom = Vector2( 0.5, 0.5 )
