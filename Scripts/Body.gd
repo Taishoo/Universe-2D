@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
 const TYPE: String = "BODY"
-const Math = preload("res://Scripts/Math.gd")
-const Engine = preload("res://Scripts/Engine.gd")
+const Math = preload("res://Scripts/FrameWorks/Math.gd")
+const Engine = preload("res://Scripts/FrameWorks/Engine.gd")
 
 onready var math:Object = Math.new()
 onready var engine:Object = Engine.new()
@@ -51,7 +51,7 @@ func kinetic() -> void:
 	# →L = →p * r
 	var _momentum = mass * linear_velocity # →p = m * →v
 	var relational_data = engine.get_all_relational_data(self, bodies) # F = G * m1 * m2 / r^2
-	var angular_vector_sum = math.sum_of_angle(relational_data) # # F1v = Σ F2v + F3v + F4v...	
+	var angular_vector_sum = math.sum_of_angle(relational_data) # F1v = Σ F2v + F3v + F4v...	
 	var force_net = sqrt(pow(angular_vector_sum.x, 2) + pow(angular_vector_sum.y, 2)) # F1_net = √(F1x^2)+(F1y^2)
 	velocity = velocity + (angular_vector_sum * (time * force_net))
 

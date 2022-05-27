@@ -4,7 +4,7 @@ extends Node
 # Used for executing subtask that happens in engine-level
 #=======================================
 
-const Math = preload("res://Scripts/Math.gd")
+const Math = preload("res://Scripts/FrameWorks/Math.gd")
 var math:Object
 var rng: Object
 

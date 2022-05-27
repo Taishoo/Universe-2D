@@ -22,12 +22,13 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Global="*res://Scripts/Global.gd"
+Global="*res://Scripts/FrameWorks/Global.gd"
 
 [display]
 
 window/size/width=1280
 window/size/height=720
+window/stretch/aspect="keep"
 
 [rendering]
 
