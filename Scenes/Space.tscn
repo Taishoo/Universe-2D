@@ -135,20 +135,22 @@ texture = ExtResource( 5 )
 [node name="CameraMan" parent="World" instance=ExtResource( 3 )]
 
 [node name="Planet" parent="World" instance=ExtResource( 1 )]
-position = Vector2( -152.142, -63.3637 )
-mass = 60.006
+position = Vector2( -575.354, -297.409 )
+mass = 5.971
 
-[node name="Planet2" parent="World" instance=ExtResource( 1 )]
-position = Vector2( 251.808, -54.2923 )
-mass = 66.972
+[node name="Planet8" parent="World" instance=ExtResource( 1 )]
+modulate = Color( 0.960784, 0.215686, 0.215686, 1 )
+position = Vector2( 131.135, -69.5842 )
 
-[node name="Planet3" parent="World" instance=ExtResource( 1 )]
-position = Vector2( 185.062, 109.924 )
-mass = 1.0
+[node name="Planet9" parent="World" instance=ExtResource( 1 )]
+modulate = Color( 0.698039, 0.980392, 0.192157, 1 )
+position = Vector2( 1136.84, 171.716 )
+density = 1.41
 
-[node name="Planet4" parent="World" instance=ExtResource( 1 )]
-position = Vector2( 37.7966, -210.033 )
-mass = 36.972
+[node name="Planet10" parent="World" instance=ExtResource( 1 )]
+modulate = Color( 0.815686, 0.243137, 1, 1 )
+position = Vector2( 149.865, -472.444 )
+mass = 50.972
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false

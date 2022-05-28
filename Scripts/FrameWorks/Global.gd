@@ -1,6 +1,6 @@
 extends Node
 
-const UNIVERSE_TIME: float = 0.1 # year/s
+const UNIVERSE_TIME: float = 1.0 # year/s
 
 var camera_zoom: float = 1.0
 var show_trail: bool = true

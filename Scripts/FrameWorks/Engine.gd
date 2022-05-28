@@ -51,3 +51,9 @@ func lerp_vector2(initial_vector: Vector2, final_vector: Vector2, interpolation:
 
 func generate_random_value(a:float, b:float) -> float:
 	return rng.randf_range(a,b)
+
+func to_speed(vector: Vector2) -> float:
+	return(abs(vector.x * vector.y))
+
+func get_kinetic_energy(mass: float, momentum:Vector2) -> float: # KE = 1/2 * m * v^2
+	return (0.5 * mass * pow(to_speed(momentum), 2)) * math.KEx # to avoid number explosion

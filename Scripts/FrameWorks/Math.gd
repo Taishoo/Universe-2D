@@ -6,6 +6,7 @@ extends Node
 
 const pi = 3.141592653589793238
 const G = 6.67 # X 10^-11
+const KEx = 0.0000001
 
 func sum_of_angle(data: Array) -> Vector2:
 	var result = Vector2.ZERO

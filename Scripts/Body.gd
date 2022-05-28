@@ -34,6 +34,7 @@ func _physics_process(delta) -> void:
 	transform()
 	kinetic()
 
+
 func preset(delta) -> void:
 	time = Global.UNIVERSE_TIME * delta
 	bodies = engine.get_all_bodies(self, get_parent())
@@ -45,6 +46,7 @@ func transform() -> void:
 	diameter = pow((volume * 3) / (4 * math.pi), (1.0/3.0)) * 2 # d = ( (v*3/4*pi)^(1/3) ) * 2
 	gravity = ((math.G * mass) / pow(diameter/2, 2)) * 0.1  # g = G*M/r^2
 	self.scale = engine.lerp_vector2(self.scale, Vector2(diameter,diameter), .3)
+	self.z_index = diameter
 
 
 func kinetic() -> void:
@@ -54,14 +56,13 @@ func kinetic() -> void:
 	var angular_vector_sum = math.sum_of_angle(relational_data) # F1v = Σ F2v + F3v + F4v...	
 	var force_net = math.pythagorean_theorem(angular_vector_sum.x, angular_vector_sum.y) # F1_net = √(F1x^2)+(F1y^2)
 	velocity = velocity + ((angular_vector_sum  * force_net) * time)
-
 	velocity = engine.lerp_vector2(velocity, Vector2.ZERO, 0)
-	pointer.set_cast_to(velocity)
 
+	pointer.set_cast_to(velocity)
 	var _catch_move_and_slide = move_and_slide(velocity)
 
 func collide() -> void:
-	var merge_speed: float = 1 / (Global.UNIVERSE_TIME / 0.1)
+	var merge_speed: float = (time * 100000) * (1 / abs(momentum.x * momentum.y))
 	yield(get_tree().create_timer(merge_speed), "timeout")
 	queue_free()
 
@@ -69,11 +70,16 @@ func collide() -> void:
 func _on_Area2D_area_entered(area) -> void:
 	# inelastic collision of this and another object
 
-	var object = area.get_parent()
-	var final_linear_momentum = momentum - object.momentum # →pf = →p1 - →p2
+	var obj = area.get_parent()
+	var final_linear_momentum = momentum - obj.momentum # →pf = →p1 - →p2
 
-	if mass >= object.mass:
+	if mass >= obj.mass:
 		var _loss = engine.generate_random_value(60, 99)
-		object.collide()
-		var final = final_linear_momentum * 0.01 # →vf = →pf * 0.01
+		var final = final_linear_momentum / (mass + obj.mass)  # →vf = →pf / (m1 + m2)
+		var KE_before = engine.get_kinetic_energy(mass, momentum) + engine.get_kinetic_energy(obj.mass, obj.momentum) # KE_before = KE1 + KE2
+		var KE_after = (0.5 * (mass + obj.mass) * pow(engine.to_speed(velocity - final), 2)) * math.KEx # KE_final = 1/2 * (m1 + m2) * Δ→v
+		var KE_loss = math.KEx / ((KE_after / KE_before) * 100) # get the loss percentage
+		print(KE_loss)
 		velocity -=  final
+		obj.collide()
+		
