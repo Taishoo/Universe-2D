@@ -19,14 +19,15 @@ var time: float = 0 # t = t_universe + Δ_game
 var prev_position:Vector2 = Vector2.ZERO # changes every t * 0.01
 var velocity:Vector2 = Vector2(0,0) * 0 # V * (pixel/t)
 var linear_velocity: float = 0.0 # km/Δt
-var momentum: float # kg/m^2/s
+var momentum: Vector2 # kg/m^2/s
+var speed: float
 
 func _ready() -> void:
 	prev_position = self.get_position()
 
-	yield(get_tree().create_timer(0.2), "timeout")
-	velocity = engine.set_random_initial_velocity()
-	var _x = move_and_slide(velocity)
+	# yield(get_tree().create_timer(0.2), "timeout")
+	# velocity = engine.set_random_initial_velocity()
+	# var _x = move_and_slide(velocity)
 
 func _physics_process(delta) -> void:
 	preset(delta)
@@ -34,7 +35,7 @@ func _physics_process(delta) -> void:
 	kinetic()
 
 func preset(delta) -> void:
-	time = Global.UNIVERSE_TIME + delta
+	time = Global.UNIVERSE_TIME * delta
 	bodies = engine.get_all_bodies(self, get_parent())
 	prev_position = self.get_position()
 
@@ -48,17 +49,31 @@ func transform() -> void:
 
 func kinetic() -> void:
 	# →L = →p * r
-	momentum = mass * linear_velocity # →p = m * →v
+	momentum = velocity * mass # →p = m * →v
 	var relational_data = engine.get_all_relational_data(self, bodies) # F = G * m1 * m2 / r^2
 	var angular_vector_sum = math.sum_of_angle(relational_data) # F1v = Σ F2v + F3v + F4v...	
 	var force_net = math.pythagorean_theorem(angular_vector_sum.x, angular_vector_sum.y) # F1_net = √(F1x^2)+(F1y^2)
-	velocity = velocity + (angular_vector_sum * (time * force_net))
+	velocity = velocity + ((angular_vector_sum  * force_net) * time)
 
 	velocity = engine.lerp_vector2(velocity, Vector2.ZERO, 0)
 	pointer.set_cast_to(velocity)
 
 	var _catch_move_and_slide = move_and_slide(velocity)
 
+func collide() -> void:
+	var merge_speed: float = 1 / (Global.UNIVERSE_TIME / 0.1)
+	yield(get_tree().create_timer(merge_speed), "timeout")
+	queue_free()
 
-func _on_Area2D_area_entered(area):
-	print(area.get_parent().get_name())
+
+func _on_Area2D_area_entered(area) -> void:
+	# inelastic collision of this and another object
+
+	var object = area.get_parent()
+	var final_linear_momentum = momentum - object.momentum # →pf = →p1 - →p2
+
+	if mass >= object.mass:
+		var _loss = engine.generate_random_value(60, 99)
+		object.collide()
+		var final = final_linear_momentum * 0.01 # →vf = →pf * 0.01
+		velocity -=  final

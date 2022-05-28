@@ -132,37 +132,23 @@ texture = ExtResource( 5 )
 
 [node name="World" type="Node2D" parent="."]
 
-[node name="Blue" parent="World" instance=ExtResource( 1 )]
-modulate = Color( 0.0509804, 0.984314, 0.854902, 1 )
-position = Vector2( -168.077, -90.4249 )
-mass = 5628.97
-density = 2.514
-
-[node name="Mars" parent="World" instance=ExtResource( 1 )]
-modulate = Color( 1, 0.105882, 0.0392157, 1 )
-position = Vector2( 320.133, 85.4839 )
-mass = 0.639
-density = 3.93
-
-[node name="Mars2" parent="World" instance=ExtResource( 1 )]
-modulate = Color( 1, 0.105882, 0.0392157, 1 )
-position = Vector2( 251.534, 89.9384 )
-mass = 0.639
-density = 3.93
-
-[node name="Mars3" parent="World" instance=ExtResource( 1 )]
-modulate = Color( 1, 0.105882, 0.0392157, 1 )
-position = Vector2( 266.234, 42.2753 )
-mass = 0.639
-density = 3.93
-
-[node name="Mars4" parent="World" instance=ExtResource( 1 )]
-modulate = Color( 1, 0.105882, 0.0392157, 1 )
-position = Vector2( 226.143, 52.0752 )
-mass = 0.639
-density = 3.93
-
 [node name="CameraMan" parent="World" instance=ExtResource( 3 )]
+
+[node name="Planet" parent="World" instance=ExtResource( 1 )]
+position = Vector2( -152.142, -63.3637 )
+mass = 60.006
+
+[node name="Planet2" parent="World" instance=ExtResource( 1 )]
+position = Vector2( 251.808, -54.2923 )
+mass = 66.972
+
+[node name="Planet3" parent="World" instance=ExtResource( 1 )]
+position = Vector2( 185.062, 109.924 )
+mass = 1.0
+
+[node name="Planet4" parent="World" instance=ExtResource( 1 )]
+position = Vector2( 37.7966, -210.033 )
+mass = 36.972
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false

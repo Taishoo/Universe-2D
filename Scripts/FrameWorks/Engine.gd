@@ -27,10 +27,11 @@ func get_all_relational_data(object:KinematicBody2D, bodies: Array) -> Array:
 	var result:Array = []
 	if bodies.size() > 0:
 		for body in bodies:
-			var element:Dictionary = {"name": "null", "angle":0.0, "force": 0.0}
+			var element:Dictionary = {"name": "null", "angle":0.0, "force": 0.0, "mass": 0.0}
 			element["name"] = body.get_name()
-			element["angle"] = object.get_angle_to(body.get_position()) # in radians
 			element["force"] = (math.G * object.mass * body.mass) / (pow (object.get_position().distance_to(body.get_position()), 2) * 1) # F = G * m1 * m2 / r^2
+			element["angle"] = object.get_angle_to(body.get_position())  # in radians
+			element["mass"] = body.mass
 			result.push_back(element)
 	return result
 
@@ -46,3 +47,7 @@ func lerp_vector2(initial_vector: Vector2, final_vector: Vector2, interpolation:
 	final.x = lerp(initial_vector.x, final_vector.x, interpolation)
 	final.y = lerp(initial_vector.y, final_vector.y, interpolation)
 	return final
+
+
+func generate_random_value(a:float, b:float) -> float:
+	return rng.randf_range(a,b)
