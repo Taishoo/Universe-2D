@@ -14,12 +14,14 @@ func _init() -> void:
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
 
+
 func get_all_bodies(object, parent) -> Array:
 	var bodies = []
 	for i in parent.get_children():
 		if "TYPE" in i and i.TYPE == "BODY" and i.get_name() != object.get_name():
 			bodies.push_back(i)
 	return bodies
+
 
 func get_all_relational_data(object:KinematicBody2D, bodies: Array) -> Array:
 	var result:Array = []
@@ -32,7 +34,15 @@ func get_all_relational_data(object:KinematicBody2D, bodies: Array) -> Array:
 			result.push_back(element)
 	return result
 
+
 func set_random_initial_velocity() -> Vector2:
 	var velocity:Vector2 = Vector2(rng.randf_range(-1,1), rng.randf_range(-1,1))
 	var magnitude: float = rng.randf_range(10.0, 50.00)
 	return velocity * magnitude
+
+
+func lerp_vector2(initial_vector: Vector2, final_vector: Vector2, interpolation: float) -> Vector2:
+	var final: Vector2 = Vector2.ZERO
+	final.x = lerp(initial_vector.x, final_vector.x, interpolation)
+	final.y = lerp(initial_vector.y, final_vector.y, interpolation)
+	return final

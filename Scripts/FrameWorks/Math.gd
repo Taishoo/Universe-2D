@@ -15,3 +15,7 @@ func sum_of_angle(data: Array) -> Vector2:
 			result.x = result.x + cos(angle)
 			result.y = result.y + sin(angle)
 	return result
+
+func pythagorean_theorem(a: float, b:float) -> float:
+	var c = sqrt(pow(a, 2) + pow(b, 2))
+	return c

@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Prefabs/Planet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/Stars_Far.png" type="Texture" id=2]
 [ext_resource path="res://Prefabs/CameraMan.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Sprites/Background/Stars_Middle.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Background/Stars_Near.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Background/Clouds.png" type="Texture" id=6]
 
 [node name="Space" type="Node2D"]
 
@@ -13,6 +12,7 @@
 
 [node name="Stars" type="ParallaxBackground" parent="Background"]
 layer = -10
+scroll_ignore_camera_zoom = true
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="Background/Stars"]
 motion_mirroring = Vector2( 1000, 1000 )
@@ -130,36 +130,35 @@ texture = ExtResource( 5 )
 position = Vector2( 1000, -1000 )
 texture = ExtResource( 5 )
 
-[node name="Cloud" type="ParallaxBackground" parent="Background"]
-offset = Vector2( 960, 540 )
-transform = Transform2D( 1, 0, 0, 1, 960, 540 )
-scroll_base_scale = Vector2( 0, 0 )
-scroll_ignore_camera_zoom = true
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Background/Cloud"]
-
-[node name="Sprite" type="Sprite" parent="Background/Cloud/ParallaxLayer"]
-z_index = -11
-z_as_relative = false
-texture = ExtResource( 6 )
-
 [node name="World" type="Node2D" parent="."]
 
-[node name="Earth" parent="World" instance=ExtResource( 1 )]
-modulate = Color( 0.0470588, 1, 0.0392157, 1 )
-position = Vector2( -171.733, 125.745 )
-
-[node name="Earth2" parent="World" instance=ExtResource( 1 )]
-modulate = Color( 0.0470588, 1, 0.0392157, 1 )
-position = Vector2( 105.446, 69.8247 )
-
-[node name="Earth3" parent="World" instance=ExtResource( 1 )]
-modulate = Color( 0.0470588, 1, 0.0392157, 1 )
+[node name="Blue" parent="World" instance=ExtResource( 1 )]
+modulate = Color( 0.0509804, 0.984314, 0.854902, 1 )
 position = Vector2( -168.077, -90.4249 )
+mass = 5628.97
+density = 2.514
 
 [node name="Mars" parent="World" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.105882, 0.0392157, 1 )
 position = Vector2( 320.133, 85.4839 )
+mass = 0.639
+density = 3.93
+
+[node name="Mars2" parent="World" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.105882, 0.0392157, 1 )
+position = Vector2( 251.534, 89.9384 )
+mass = 0.639
+density = 3.93
+
+[node name="Mars3" parent="World" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.105882, 0.0392157, 1 )
+position = Vector2( 266.234, 42.2753 )
+mass = 0.639
+density = 3.93
+
+[node name="Mars4" parent="World" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.105882, 0.0392157, 1 )
+position = Vector2( 226.143, 52.0752 )
 mass = 0.639
 density = 3.93
 
