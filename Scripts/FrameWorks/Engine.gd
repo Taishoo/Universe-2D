@@ -56,4 +56,4 @@ func to_speed(vector: Vector2) -> float:
 	return(abs(vector.x * vector.y))
 
 func get_kinetic_energy(mass: float, momentum:Vector2) -> float: # KE = 1/2 * m * v^2
-	return (0.5 * mass * pow(to_speed(momentum), 2)) * math.KEx # to avoid number explosion
+	return (0.5 * mass * pow(to_speed(momentum), 2)) # to avoid number explosion
