@@ -29,12 +29,12 @@ func _ready() -> void:
 	pass
 
 func _physics_process(delta) -> void:
-	preset(delta)
+	preset()
 	transform()
 	kinetic(delta)
 
 
-func preset(_delta: float) -> void:
+func preset() -> void:
 	time = Global.UNIVERSE_TIME
 	bodies = engine.get_all_bodies(self, get_parent())
 
@@ -51,19 +51,14 @@ func kinetic(delta: float) -> void:
 	var relational_data = engine.get_all_relational_data(self, bodies) # F = G * m1 * m2 / r^2
 	var angular_vector_sum = math.sum_of_angle(relational_data) # F1v = Σ F2v + F3v + F4v...	
 	var force_net = math.pythagorean_theorem(angular_vector_sum.x, angular_vector_sum.y) # F1_net = √(F1x^2)+(F1y^2)
-	velocity += (angular_vector_sum  * force_net) * time
+	velocity += (angular_vector_sum  * force_net) * time # →v_new = →v + (F1→v * F1_net) * t
 	velocity = engine.lerp_vector2(velocity, Vector2.ZERO, 0)
 	momentum = velocity * mass # →p = m * →v
 
 	# my equation of normalizing speed in godot engine
+	speed = math.pythagorean_theorem(velocity.x, velocity.y)
 	var exponent = log(1/time) / log(10) # exp = log(1/t)
 	speed_norm = (speed * pow(3 + delta * 10, exponent)) # s_norm = s * (3 + Δt*10)^exp
-
-	var vx = velocity
-	speed = math.pythagorean_theorem(vx.x, vx.y)
-
-	if get_name() == "Planet":
-		print(speed_norm)
 
 	pointer.set_cast_to(velocity / diameter)
 	var _catch_move_and_slide = move_and_slide(velocity)
@@ -78,12 +73,11 @@ func _on_Area2D_area_entered(area) -> void:
 	var obj = area.get_parent()
 	var final_linear_momentum = momentum - obj.momentum # →pf = →p1 - →p2
 	var final = final_linear_momentum / (mass + obj.mass)  # →vf = →pf / (m1 + m2)
+	var KE_before = (engine.get_kinetic_energy(mass, momentum) + engine.get_kinetic_energy(obj.mass, obj.momentum)) * math.KEx # KE_before = KE1 + KE2
+	var KE_after = (0.5 * (mass + obj.mass) * pow(math.pythagorean_theorem(velocity.x - final.x, velocity.y - final.y), 2)) * math.KEx # KE_final = 1/2 * (m1 + m2) * Δ→v
+	var KE_loss = 100 - ((KE_after / KE_before) * 100) # get the loss percentage
 
 	if mass >= obj.mass:
-		var _loss = engine.generate_random_value(60, 99)
-		var KE_before = (engine.get_kinetic_energy(mass, momentum) + engine.get_kinetic_energy(obj.mass, obj.momentum)) * math.KEx # KE_before = KE1 + KE2
-		var KE_after = (0.5 * (mass + obj.mass) * pow(math.pythagorean_theorem(velocity.x - final.x, velocity.y - final.y), 2)) * math.KEx # KE_final = 1/2 * (m1 + m2) * Δ→v
-		var KE_loss = 100 - ((KE_after / KE_before) * 100) # get the loss percentage
 		obj.collide(KE_loss, obj)
 		# print("============")
 		# print(get_name())

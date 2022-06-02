@@ -5,7 +5,6 @@ extends Node
 #=======================================
 
 const pi = 3.141592653589793238
-const pi2 = pi + 2
 const G = 6.67 # X 10^-11
 const KEx = 0.0000001
 #const KEx = 1.0
