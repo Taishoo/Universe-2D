@@ -1,12 +1,12 @@
 extends KinematicBody2D
 
-onready var camera:Camera2D = get_node("Camera")
+onready var camera: Camera2D = get_node("Camera")
 
-var dragging:bool = false
+var dragging: bool = false
 
-var drag_mouse_pos:Vector2
-var init_mouse_pos:Vector2
-var init_camera_pos:Vector2
+var drag_mouse_pos: Vector2
+var init_mouse_pos: Vector2
+var init_camera_pos: Vector2
 
 func _input(event) -> void:
 	if event is InputEventMouseButton:
@@ -30,7 +30,7 @@ func _input(event) -> void:
 		self.position = (init_camera_pos + init_mouse_pos - drag_mouse_pos) * Global.camera_zoom
 
 func set_zoom(shift: String) -> float:
-	var val = 0.0
+	var val: float = 0.0
 	if shift == "UP":
 		val = 0.01 if Global.camera_zoom >= 0.02 else 0.0
 	else:
