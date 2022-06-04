@@ -53,9 +53,12 @@ func generate_random_value(a:float, b:float) -> float:
 	return rng.randf_range(a,b)
 
 
-func to_speed(vector: Vector2) -> float:
-	return(abs(vector.x * vector.y))
-
-
 func get_kinetic_energy(mass: float, momentum: Vector2) -> float: # KE = 1/2 * m * v^2
-	return (0.5 * mass * pow(to_speed(momentum), 2))
+	return (0.5 * mass * pow(abs(momentum.x * momentum.y), 2))
+
+
+func normalize(value, time: float, delta: float): # retuns either float or vector
+	# my equation of normalizing speed in godot engine
+	var exponent: float = log(1/time) / log(10) # exp = log(1/t)
+	return (value * pow(3 + delta * 10, exponent)) # norm = s * (3 + Δt*10)^exp
+
