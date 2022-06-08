@@ -44,14 +44,11 @@ texture = ExtResource( 1 )
 visible = false
 modulate = Color( 1, 0, 0, 1 )
 shape = SubResource( 2 )
-disabled = true
 
 [node name="Area2D" type="Area2D" parent="."]
-visible = false
 
 [node name="Area" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 3 )
-one_way_collision = true
 
 [node name="Label" type="Label" parent="."]
 visible = false
