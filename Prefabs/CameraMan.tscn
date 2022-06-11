@@ -15,5 +15,6 @@ smoothing_enabled = true
 smoothing_speed = 15.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 1 )
 disabled = true

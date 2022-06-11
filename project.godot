@@ -30,6 +30,10 @@ window/size/width=1280
 window/size/height=720
 window/stretch/aspect="keep"
 
+[physics]
+
+2d/thread_model=2
+
 [rendering]
 
 environment/default_clear_color=Color( 0, 0, 0, 1 )
