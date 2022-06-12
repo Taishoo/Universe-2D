@@ -6,8 +6,8 @@ extends Node
 
 const pi: float = 3.141592653589793238
 const G: float = 6.67 # X 10^-11
-const KEC: float = 0.00000000001
 const e: float = 2.718281828459045
+const min_mass: float = 0.0000001
 
 
 func pythagorean_theorem(a: float, b:float) -> float:
