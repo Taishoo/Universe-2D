@@ -141,6 +141,7 @@ position = Vector2( 12.6255, -41.6096 )
 [node name="Theia" parent="World" instance=ExtResource( 1 )]
 modulate = Color( 0.298039, 1, 0.917647, 1 )
 position = Vector2( -55.7957, -42.5035 )
+body_name = "theia"
 mass = 0.639
 density = 3.93
 

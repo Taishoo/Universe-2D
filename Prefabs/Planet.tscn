@@ -31,6 +31,7 @@ radius = 0.733493
 script = ExtResource( 2 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+visible = false
 cast_to = Vector2( 50, 0 )
 __meta__ = {
 "_edit_lock_": true
@@ -117,7 +118,6 @@ position = Vector2( -1.07694, -3.13021 )
 rotation = 1.32835
 
 [node name="Label" type="Label" parent="."]
-visible = false
 margin_left = -5.29783
 margin_top = 5.17698
 margin_right = 47.7022

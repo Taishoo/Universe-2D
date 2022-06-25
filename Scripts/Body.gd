@@ -17,6 +17,7 @@ export var temperature: float = 0.0 # K
 onready var color = self.get_modulate()
 var prespawned: bool = true
 var can_collide: bool = true
+var loss: float = 0.0
 
 var bodies: Array = []
 var delta: float = 0.0
@@ -34,11 +35,15 @@ func _ready() -> void:
 		yield(get_tree().create_timer(1 / (time * 10)), "timeout")
 		can_collide = true
 
-	if get_name() == "Theia":
-		yield(get_tree().create_timer(0.2), "timeout")
-		#velocity = (Vector2(1,1) * 0.25) * time
-		velocity.real = (Vector2(1,0) * 4.00) * time
-		var _x = move_and_slide(velocity.real)
+	#if get_name() == "Theia":
+		#yield(get_tree().create_timer(0.2), "timeout")
+		#velocity.real = (Vector2(1,1) * 0.35) * time
+		#velocity.real = (Vector2(1,0) * 4.00) * time
+		#var _x = move_and_slide(velocity.real)
+	
+	#yield(get_tree().create_timer(0.2), "timeout")
+	#velocity.real = engine.set_random_initial_velocity()
+	#var _x = move_and_slide(velocity.real)
 
 
 func _physics_process(deltax) -> void:
@@ -50,8 +55,8 @@ func _physics_process(deltax) -> void:
 
 
 func transform(init: bool) -> void:
-	var volume: float = mass / density # v = m/p
-	diameter = pow((volume * 3) / (4 * math.pi), (1.0/3.0)) * 2 # d = (v*3/4*pi)^(1/3) * 2
+	var volume: float = mass / density # vol = mass / density
+	diameter = pow((volume * 3) / (4 * math.pi), (1.0/3.0)) * 2 # diameter = (vol * 3/4 * π) ^ (1/3) * 2
 	gravity = (math.G * mass) / max(pow(diameter/2, 2), 0.001)  # g = G*M/r^2
 	self.scale = engine.lerp_vector2(self.scale, Vector2(diameter,diameter), 0.3) if not init else Vector2(diameter,diameter)
 	self.z_index = int(diameter)
@@ -82,10 +87,10 @@ func pre_collide(obj: KinematicBody2D) -> void:
 	# Artificially created, not the accurate representation
 	var mass_sqrd: float = max(pow(mass, 2), pow(math.min_mass, 2)) # m^2 = max(m^2, 0.0000001^2)
 	var momentum_norm_scalar: float = math.pythagorean_theorem(final_momentum_norm.x, final_momentum_norm.y) # →p_scalar = √(→px^2)+(→py^2)
-	displacement = engine.cap(100 - (momentum_norm_scalar * 10 / mass_sqrd) , -100.0, 100.0)  # d = 100 - (→p_scalar*10 / m^2) (capped -100 to 100)
-	var loss: float = engine.cap(displacement + obj.displacement, -100.0, 100.0) # Δm = d1 + d2 (capped -100 to 100)
+	displacement = engine.cap(100 - (momentum_norm_scalar * 10 / mass_sqrd) , -100.0, 100.0)  # d = 100 - (→p * 10 / m^2) (capped -100 to 100)
+	loss = engine.cap(displacement + obj.displacement, -100.0, 100.0) # Δm = d1 + d2 (capped -100 to 100)
 
-	if mass >= obj.mass:
+	if mass > obj.mass:
 		obj.collide(100 - loss, self)
 		mass = mass + (obj.mass * (loss/100)) # mf = m1 + (m2 * Δm/100)
 		velocity.real -= final # →v = →v - →vf
@@ -94,10 +99,11 @@ func pre_collide(obj: KinematicBody2D) -> void:
 func collide(retained: float, obj: KinematicBody2D) -> void:
 	self.get_node("Area2D/Area").set_deferred("disabled", true)
 	var merge_time: float =  ((1/time) / (speed.real + obj.speed.real)) * time # mt = ((1/t) / (s1 + s2)) * t
-	var mass_left: float = mass * (retained/100) # mf = mi (mr/100)
+	var mass_left: float = mass * (retained/100) # mf = mi * (mr/100)
 	
 	if mass > (obj.mass * 0.01) and mass >= 0.005:
 		var count: int = round(engine.generate_random_float(1.0, 10.4))
+		count = 10
 		var distribution: Array = engine.generate_probability_list(count, 1.0, 9999.0)
 		var positions: Array = get_node("Position").get_children()
 		var index: int = 0
@@ -108,7 +114,7 @@ func collide(retained: float, obj: KinematicBody2D) -> void:
 			body.position = positions[index].get_global_position()
 			body.mass = max(mass_left * fragment, math.min_mass)
 			body.density = density
-			body.velocity.real = -(velocity.real/1.3)
+			body.velocity.real = -(velocity.real/1.2)
 			body.set_modulate(get_modulate())
 			get_tree().get_current_scene().get_node_or_null("World").add_child(body)
 			index += 1
